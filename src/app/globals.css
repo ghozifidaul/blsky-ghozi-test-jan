@@ -29,3 +29,12 @@ body {
   background: #444;
 }
 
+/* Flash animation for panels */
+@keyframes flash-border {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: #ef4444; }
+}
+
+.flash-animation {
+  animation: flash-border 0.5s ease-in-out;
+}
