@@ -1,11 +1,13 @@
 import { WebSocket, WebSocketServer } from 'ws';
+import { Message } from '../../../types/chat';
 
-interface Message {
-  type: string;
-  content: string;
-  sender: string;
-  timestamp: number;
-}
+// interface Message {
+//   type?: string;
+//   id?: string;
+//   content: string;
+//   sender: string;
+//   timestamp: number;
+// }
 
 const connectedClients = new Set<WebSocket>();
 
@@ -22,9 +24,10 @@ export function UPGRADE(client: WebSocket, server: WebSocketServer) {
 
       const response = {
         type: 'message',
+        id: message.id,
         content: message.content,
         sender: message.sender || 'unknown',
-        timestamp: Date.now(),
+        timestamp: message.timestamp || Date.now(),
       };
 
       server.clients.forEach((connectedClient: WebSocket) => {
@@ -52,4 +55,18 @@ export function UPGRADE(client: WebSocket, server: WebSocketServer) {
     message: 'WebSocket connection established',
     timestamp: Date.now(),
   }));
+}
+
+export async function GET() {
+  return new Response('WebSocket endpoint. Please connect via WebSocket protocol.', { status: 426 });
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Upgrade',
+    },
+  });
 }

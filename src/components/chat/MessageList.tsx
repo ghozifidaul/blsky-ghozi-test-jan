@@ -6,10 +6,10 @@ import MessageBubble from './MessageBubble';
 
 interface MessageListProps {
   messages: Message[];
-  isOwnPanel: boolean;
+  panelIdentity: 'left' | 'right';
 }
 
-export default function MessageList({ messages, isOwnPanel }: MessageListProps) {
+export default function MessageList({ messages, panelIdentity }: MessageListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function MessageList({ messages, isOwnPanel }: MessageListProps) 
           <MessageBubble
             key={message.id}
             message={message}
-            isOwn={message.sender === 'user' && isOwnPanel}
+            isOwn={message.sender === panelIdentity}
           />
         ))
       )}

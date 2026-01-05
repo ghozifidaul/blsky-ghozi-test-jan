@@ -28,7 +28,7 @@ export function usePersistedMessages(panel: 'left' | 'right', initialMessages: M
     const newMessage: Message = {
       id: Date.now().toString(),
       content,
-      sender: 'user',
+      sender: panel,
       timestamp: Date.now(),
     };
     setMessages((prev) => [...prev, newMessage]);

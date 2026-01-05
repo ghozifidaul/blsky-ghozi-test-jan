@@ -1,12 +1,14 @@
 'use client'
 
+// import { usePersistedMessages } from '@/hooks/usePersistedMessages';
 import ChatPanel from '../components/chat/ChatPanel';
 import TwoPanelLayout from '../components/layout/TwoPanelLayout';
-import { usePersistedMessages } from '../hooks/usePersistedMessages';
+import { useChatWithWebSocket } from '@/hooks/useChatWithWebSocket';
+// import { useChatWithWebSocket } from '../hooks/useChatWithWebSocket';
 
 export default function Home() {
-  const leftChat = usePersistedMessages('left');
-  const rightChat = usePersistedMessages('right');
+  const leftChat = useChatWithWebSocket('left');
+  const rightChat = useChatWithWebSocket('right');
 
   return (
     <div className="bg-black">
@@ -17,7 +19,8 @@ export default function Home() {
             messages={leftChat.messages}
             onSendMessage={leftChat.addMessage}
             onClearMessages={leftChat.clearMessages}
-            isLeft={true}
+            panelIdentity="left"
+            connectionStatus={leftChat.connectionStatus}
           />
         }
         right={
@@ -26,7 +29,8 @@ export default function Home() {
             messages={rightChat.messages}
             onSendMessage={rightChat.addMessage}
             onClearMessages={rightChat.clearMessages}
-            isLeft={false}
+            panelIdentity="right"
+            connectionStatus={rightChat.connectionStatus}
           />
         }
       />

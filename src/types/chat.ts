@@ -1,7 +1,8 @@
 export interface Message {
+  type?: string;
   id: string;
   content: string;
-  sender: 'user' | 'other';
+  sender: 'left' | 'right';
   timestamp: number;
 }
 
@@ -10,5 +11,11 @@ export interface ChatPanelProps {
   messages: Message[];
   onSendMessage: (content: string) => void;
   onClearMessages?: () => void;
-  isLeft?: boolean;
+  panelIdentity: 'left' | 'right';
+  connectionStatus: ConnectionStatus;
+}
+
+export interface ConnectionStatus {
+  status: 'connecting' | 'connected' | 'disconnected' | 'error';
+  error?: string;
 }
